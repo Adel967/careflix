@@ -23,5 +23,5 @@ class _WaitingWidgetState extends State<WaitingWidget> {
   @override
   Widget build(BuildContext context) => Center(
       child: Lottie.asset(AssetsLink.LOADING_ANIMATION,
-          width: 100, height: 100, fit: BoxFit.fill));
+          width: 100, height: 100, fit: BoxFit.cover));
 }

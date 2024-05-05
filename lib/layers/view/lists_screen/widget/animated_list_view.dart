@@ -40,7 +40,7 @@ class _AnimatedListItemState extends State<AnimatedListItem> {
               : SizeConfig.screenHeight * 0.3,
           child: Container(
             decoration: BoxDecoration(
-              color: Styles.colorTertiary,
+              color: Colors.white10,
               borderRadius: BorderRadius.all(Radius.circular(10)),
             ),
             padding: const EdgeInsets.all(8),

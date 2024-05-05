@@ -27,7 +27,7 @@ class ThemeProvider extends ChangeNotifier {
       notifyListeners();
       return Null;
     }
-    _themeMode = prefs.getString(SharedPreferencesKeys.LanguageCode)! ==
+    _themeMode = prefs.getString(SharedPreferencesKeys.ThemeMode)! ==
             ThemeMode.dark.toString()
         ? ThemeMode.dark
         : ThemeMode.light;

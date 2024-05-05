@@ -10,7 +10,6 @@ class GradientBackground extends StatelessWidget {
     super.key,
   });
 
-
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -43,7 +42,7 @@ class GradientBackground extends StatelessWidget {
                 shape: BoxShape.circle,
                 boxShadow: [
                   BoxShadow(
-                      color: Styles.ColorGradient2.withOpacity(0.8),
+                      color: Styles.ColorGradient2.withOpacity(0.3),
                       blurRadius: 100)
                 ],
               ),

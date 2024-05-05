@@ -1,6 +1,7 @@
 import 'package:careflix/core/configuration/styles.dart';
 import 'package:careflix/layers/view/settings/widgets/day_night_button.dart';
 import 'package:careflix/layers/view/settings/widgets/settings_card.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/routing/route_path.dart';
@@ -36,7 +37,7 @@ class SettingsScreen extends StatelessWidget {
                   ),
                 ),
                 TextButton(
-                  onPressed: () async {},
+                  onPressed: () => FirebaseAuth.instance.signOut(),
                   child: Row(
                     children: [
                       Text(

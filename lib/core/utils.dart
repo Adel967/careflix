@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class Utils {
   static Widget clipWidget(Widget widget, {double radius = 15}) => ClipRRect(
@@ -10,5 +11,11 @@ class Utils {
     return LinearGradient(
       colors: colors,
     ).createShader(Rect.fromLTWH(0.0, 0.0, 200.0, 70.0));
+  }
+
+  static showSnackBar(BuildContext context, String msg) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(msg),
+    ));
   }
 }

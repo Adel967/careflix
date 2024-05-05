@@ -5,10 +5,13 @@ import 'package:careflix/core/routing/route_path.dart';
 import 'package:careflix/core/shared_preferences/shared_preferences_instance.dart';
 import 'package:careflix/core/utils/size_config.dart';
 import 'package:careflix/l10n/local_provider.dart';
+import 'package:careflix/layers/logic/splash__provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/shared_preferences/shared_preferences_key.dart';
+import '../../../injection_container.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -23,20 +26,14 @@ class _SplashScreenState extends State<SplashScreen>
   late Animation _animation;
 
   getData() {
-    Future.delayed(Duration(seconds: 3), () async {
-      if (SharedPreferencesInstance.pref
-              .getBool(SharedPreferencesKeys.FIRST_TIME_KEY) ==
-          null) {
-        Navigator.of(context).pushReplacementNamed(RoutePaths.OnBoardingScreen);
-      } else {
-        Navigator.of(context).pushReplacementNamed(RoutePaths.LogIn);
-      }
+    Future.delayed(Duration(seconds: 3), () {
+      User? user = FirebaseAuth.instance.currentUser;
+      sl<SplashProvider>().closeSplash(user);
     });
   }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _animationController =
         AnimationController(vsync: this, duration: Duration(seconds: 1));
@@ -49,6 +46,12 @@ class _SplashScreenState extends State<SplashScreen>
       setState(() {});
     });
     getData();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
   }
 
   @override

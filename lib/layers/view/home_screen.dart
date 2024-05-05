@@ -52,10 +52,10 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             child: BottomNavigationBar(
                 type: BottomNavigationBarType.fixed, // Fixed
-                backgroundColor: Styles.colorPrimary
-                    .withOpacity(0.9), // <-- This works for fixed
+                backgroundColor: Colors.blueGrey
+                    .withOpacity(0.7), // <-- This works for fixed
                 showUnselectedLabels: false,
-                selectedItemColor: Styles.ColorGradient2,
+                selectedItemColor: Colors.white,
                 unselectedItemColor: Colors.grey.shade400,
                 currentIndex: index,
                 onTap: _handleIndexChanged,
