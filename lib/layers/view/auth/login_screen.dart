@@ -50,6 +50,11 @@ class _LogInScreenState extends State<LogInScreen> {
             LoadingOverlay.of(context).show();
           } else if (state is AuthLoaded) {
             LoadingOverlay.of(context).hide();
+            if(state.user!.displayName != null && state.user!.displayName!.isNotEmpty){
+              Navigator.of(context).pushNamedAndRemoveUntil(RoutePaths.Home, (route) => false);
+            }else{
+              Navigator.of(context).pushNamedAndRemoveUntil(RoutePaths.SetUpProfileScreen, (route) => false);
+            }
           } else if (state is AuthError) {
             LoadingOverlay.of(context).hide();
             Utils.showSnackBar(context, state.error);

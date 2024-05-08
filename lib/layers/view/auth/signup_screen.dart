@@ -56,7 +56,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
             LoadingOverlay.of(context).show();
           } else if (state is AuthLoaded) {
             LoadingOverlay.of(context).hide();
-            Navigator.pop(context);
+            Navigator.of(context).pushNamedAndRemoveUntil(
+                RoutePaths.SetUpProfileScreen, (route) => false);
           } else if (state is AuthError) {
             LoadingOverlay.of(context).hide();
             Utils.showSnackBar(context, state.error);

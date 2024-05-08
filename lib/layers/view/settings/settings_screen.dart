@@ -10,6 +10,12 @@ import '../../../generated/l10n.dart';
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
 
+  signOut(BuildContext context) async {
+    await FirebaseAuth.instance.signOut();
+    Navigator.of(context)
+        .pushNamedAndRemoveUntil(RoutePaths.LogIn, (route) => false);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,18 +32,13 @@ class SettingsScreen extends StatelessWidget {
                     color: Styles.colorPrimary.withOpacity(0.7),
                     borderRadius: BorderRadius.circular(15),
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "adelkutait8@gmail.com",
-                        style: TextStyle(fontSize: 18),
-                      ),
-                    ],
+                  child: Text(
+                    "adelkutait8@gmail.com",
+                    style: TextStyle(fontSize: 18),
                   ),
                 ),
                 TextButton(
-                  onPressed: () => FirebaseAuth.instance.signOut(),
+                  onPressed: () => signOut(context),
                   child: Row(
                     children: [
                       Text(

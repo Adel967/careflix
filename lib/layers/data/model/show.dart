@@ -1,3 +1,14 @@
+import 'dart:convert';
+
+import 'package:careflix/core/enum.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+List<Show> getShowList(String str) =>
+    List<Show>.from(json.decode(str).map((x) => Show.fromMap(x)));
+
+List<Show> getShowListFromListMap(List<QueryDocumentSnapshot> list) =>
+    List<Show>.from(list.map((x) => Show.fromMap(x)));
+
 class Show {
   final String title;
   final String description;
@@ -7,20 +18,23 @@ class Show {
   final double rating;
   final List<String> category;
   final int? episodeNum;
-  final String type;
+  final ShowType type;
   final String releaseDate;
+  final ShowLan? showLan;
 
-  Show(
-      {required this.title,
-      required this.description,
-      this.season,
-      required this.imageUrl,
-      this.duration,
-      required this.rating,
-      required this.category,
-      this.episodeNum,
-      required this.type,
-      required this.releaseDate});
+  Show({
+    required this.title,
+    required this.description,
+    this.season,
+    required this.imageUrl,
+    this.duration,
+    required this.rating,
+    required this.category,
+    this.episodeNum,
+    required this.type,
+    required this.releaseDate,
+    this.showLan,
+  });
 
   Map<String, dynamic> toMap() {
     return {
@@ -36,18 +50,25 @@ class Show {
     };
   }
 
-  factory Show.fromMap(Map<String, dynamic> map) {
+  factory Show.fromMap(dynamic map) {
     return Show(
-      title: map['title'] as String,
-      description: map['description'] as String,
-      season: map['season'] as String,
-      imageUrl: map['imageUrl'] as String,
-      duration: map['duration'] as String,
-      rating: map['rating'] as double,
-      category: map['category'] as List<String>,
-      episodeNum: map['episodeNum'] as int,
-      type: map['type'] as String,
-      releaseDate: map['releaseDate'] as String,
+      title: map['title'],
+      description: map['description'],
+      season: map['season_number'].toString(),
+      imageUrl: map['imageUrl'],
+      duration: map['duration'].toString(),
+      rating: map['rating'],
+      category: map['category'].toString().split(","),
+      episodeNum:
+          map['episode_count'] != "" ? map['episode_count'].floor() : null,
+      type: stringToShowType(map['type']),
+      releaseDate: map['release_year'].toString(),
+      showLan: stringToShowLan(map['lan']),
     );
+  }
+
+  @override
+  String toString() {
+    return 'Show{title: $title, description: $description, season: $season, imageUrl: $imageUrl, duration: $duration, rating: $rating, category: $category, episodeNum: $episodeNum, type: $type, releaseDate: $releaseDate, showLan: $showLan}';
   }
 }

@@ -40,6 +40,12 @@ class _SetUpProfileScreenState extends State<SetUpProfileScreen> {
     }
   }
 
+  signOut() async {
+    await FirebaseAuth.instance.signOut();
+    Navigator.of(context)
+        .pushNamedAndRemoveUntil(RoutePaths.LogIn, (route) => false);
+  }
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -57,7 +63,7 @@ class _SetUpProfileScreenState extends State<SetUpProfileScreen> {
         elevation: 0,
         actions: [
           IconButton(
-              onPressed: () => FirebaseAuth.instance.signOut(),
+              onPressed: () => signOut(),
               icon: Icon(
                 Icons.logout,
                 color: Colors.red,
@@ -71,6 +77,8 @@ class _SetUpProfileScreenState extends State<SetUpProfileScreen> {
             LoadingOverlay.of(context).show();
           } else if (state is ProfileUploaded) {
             LoadingOverlay.of(context).hide();
+            Navigator.of(context)
+                .pushNamedAndRemoveUntil(RoutePaths.Home, (route) => false);
           } else if (state is ProfileError) {
             LoadingOverlay.of(context).hide();
             Utils.showSnackBar(context, state.error);

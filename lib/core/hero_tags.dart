@@ -3,20 +3,31 @@ import 'package:careflix/layers/data/model/show.dart';
 import 'enum.dart' as Enums;
 
 class HeroTag {
-  static String image(String urlImage, {required Enums.HeroTagsTypes token}) =>
-      urlImage + Enums.HeroTagsEnumToString(token);
-  static String title(Show show, {required Enums.HeroTagsTypes token}) =>
-      show.title + show.releaseDate + Enums.HeroTagsEnumToString(token);
-  static String season(Show show, {required Enums.HeroTagsTypes token}) =>
-      show.season != null
-          ? (show.season! + Enums.HeroTagsEnumToString(token))
-          : (show.releaseDate + Enums.HeroTagsEnumToString(token));
+  static String image(String urlImage, {required Enums.HeroTagsTypes token}) {
+    print("image:" + urlImage + Enums.HeroTagsEnumToString(token));
+    return urlImage + Enums.HeroTagsEnumToString(token);
+  }
+
+  static String title(Show show, {required Enums.HeroTagsTypes token}) {
+    return show.title + show.imageUrl + Enums.HeroTagsEnumToString(token);
+  }
+
+  static String season(Show show, {required Enums.HeroTagsTypes token}) {
+    return show.season != null && show.season!.isNotEmpty
+        ? (show.season! + show.imageUrl + Enums.HeroTagsEnumToString(token))
+        : (show.releaseDate +
+            show.imageUrl +
+            Enums.HeroTagsEnumToString(token));
+  }
+
   static String star(Show show,
-          {int? index, required Enums.HeroTagsTypes token}) =>
-      show.title +
-      show.releaseDate +
-      Enums.HeroTagsEnumToString(token) +
-      (index != null ? index.toString() : "");
+      {int? index, required Enums.HeroTagsTypes token}) {
+    return show.title +
+        show.releaseDate +
+        show.imageUrl +
+        Enums.HeroTagsEnumToString(token) +
+        (index != null ? index.toString() : "");
+  }
 }
 
 class HeroTagTokens {

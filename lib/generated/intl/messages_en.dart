@@ -65,6 +65,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "login": MessageLookupByLibrary.simpleMessage("Login"),
         "logout": MessageLookupByLibrary.simpleMessage("Logout"),
         "male": MessageLookupByLibrary.simpleMessage("Male"),
+        "movie": MessageLookupByLibrary.simpleMessage("Movie"),
         "movies": MessageLookupByLibrary.simpleMessage("Movies"),
         "myList": MessageLookupByLibrary.simpleMessage("My List"),
         "noInternetConnection":
@@ -88,6 +89,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "signup": MessageLookupByLibrary.simpleMessage("SignUp"),
         "skip": MessageLookupByLibrary.simpleMessage("Skip"),
         "trending": MessageLookupByLibrary.simpleMessage("Trending"),
+        "tvShow": MessageLookupByLibrary.simpleMessage("TV show"),
         "type": MessageLookupByLibrary.simpleMessage("Type"),
         "welcome": MessageLookupByLibrary.simpleMessage("Welcome")
       };

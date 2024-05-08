@@ -95,27 +95,7 @@ class MyApp extends StatelessWidget {
               GlobalCupertinoLocalizations.delegate,
             ],
             onGenerateRoute: AppRouter.generateRoute,
-            home: splashProvider.splashClosed
-                ? StreamBuilder(
-                    stream: user,
-                    initialData: splashProvider.currentUser,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        if (snapshot.data!.displayName == "" ||
-                            snapshot.data!.displayName == null) {
-                          return SetUpProfileScreen();
-                        }
-                        return HomeScreen();
-                      } else {
-                        if (SharedPreferencesInstance.pref.getBool(
-                                SharedPreferencesKeys.FIRST_TIME_KEY) ==
-                            null) {
-                          return OnBoardingScreen();
-                        }
-                        return LogInScreen();
-                      }
-                    })
-                : SplashScreen(),
+            initialRoute: RoutePaths.SplashScreen,
           ),
         );
       },

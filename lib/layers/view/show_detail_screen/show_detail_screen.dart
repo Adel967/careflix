@@ -27,6 +27,7 @@ class ShowDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(show.toString());
     return Scaffold(
       body: Container(
         transform: Matrix4.translationValues(0.0, -30.0, 0.0),
@@ -34,7 +35,7 @@ class ShowDetailScreen extends StatelessWidget {
           children: [
             HeroWidget(
               tag: HeroTag.image(show.imageUrl, token: heroToken),
-              child: ContentHeader( show: show),
+              child: ContentHeader(show: show),
             ),
             CommonSizes.vSmallSpace,
             AnimatedBuilder(

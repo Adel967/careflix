@@ -32,11 +32,9 @@ class _ContentBodyState extends State<ContentBody> {
     // TODO: implement initState
     super.initState();
     Future.delayed(Duration(milliseconds: 700), () {
-      if (mounted) {
-        setState(() {
-          isTopAndBottomStarsAnimated = true;
-        });
-      }
+      setState(() {
+        isTopAndBottomStarsAnimated = true;
+      });
     });
   }
 
@@ -68,21 +66,26 @@ class _ContentBodyState extends State<ContentBody> {
                           ),
                         ),
                       ),
-                      HeroWidget(
-                        tag: HeroTag.season(widget.show,
-                            token: widget.heroToken),
-                        child: ResponsiveText(
-                          textWidget: Text(
-                            widget.show.season ?? "First",
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleMedium
-                                ?.copyWith(
-                                    color: Theme.of(context)
-                                        .textTheme
-                                        .titleMedium
-                                        ?.color
-                                        ?.withOpacity(0.8)),
+                      CommonSizes.vSmallerSpace,
+                      Visibility(
+                        visible: widget.show.season != null &&
+                            widget.show.season!.isNotEmpty,
+                        child: HeroWidget(
+                          tag: HeroTag.season(widget.show,
+                              token: widget.heroToken),
+                          child: ResponsiveText(
+                            textWidget: Text(
+                              widget.show.season ?? "First",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleMedium
+                                  ?.copyWith(
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .titleMedium
+                                          ?.color
+                                          ?.withOpacity(0.8)),
+                            ),
                           ),
                         ),
                       ),

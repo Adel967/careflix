@@ -60,9 +60,7 @@
   "comingSoon": "Coming Soon",
   "settings": "Settings",
   "logout": "Logout",
-  "setUpProfile": "Setup your profile"
-
-
-
-
+  "setUpProfile": "Setup your profile",
+  "tvShow": "TV show",
+  "movie": "Movie"
 }

@@ -1,3 +1,5 @@
+import 'package:careflix/core/enum.dart';
+
 import '../model/show.dart';
 
 class FakeData {
@@ -12,7 +14,7 @@ class FakeData {
         duration: "02:30",
         rating: 7.5,
         category: ["Action", "Adventure"],
-        type: "en",
+        type: ShowType.MOVIE,
         releaseDate: "2022"),
     Show(
         title: "Avengers",
@@ -24,7 +26,7 @@ class FakeData {
         duration: "02:30",
         rating: 9,
         category: ["Action", "Adventure"],
-        type: "en",
+        type: ShowType.MOVIE,
         releaseDate: "2018"),
     Show(
         title: "Captain America",
@@ -35,7 +37,7 @@ class FakeData {
         duration: "03:10",
         rating: 6.5,
         category: ["Action", "Adventure"],
-        type: "en",
+        type: ShowType.MOVIE,
         releaseDate: "2014"),
   ];
 }

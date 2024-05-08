@@ -1,3 +1,5 @@
+import '../generated/l10n.dart';
+
 enum HeroTagsTypes {
   FromAnimatedList,
   FromMoviesCard,
@@ -45,5 +47,57 @@ String genderToString(Gender gender) {
       return "F";
     default:
       return "M";
+  }
+}
+
+enum ShowType { TV_SHOW, MOVIE }
+
+ShowType stringToShowType(String showType) {
+  switch (showType) {
+    case "series":
+      return ShowType.TV_SHOW;
+    case "movie":
+      return ShowType.MOVIE;
+    default:
+      return ShowType.MOVIE;
+  }
+}
+
+String showTypeToString(ShowType showType) {
+  switch (showType) {
+    case ShowType.TV_SHOW:
+      return S.current.tvShow;
+    case ShowType.MOVIE:
+      return S.current.movie;
+    default:
+      return S.current.movie;
+  }
+}
+
+enum ShowLan { ENGLISH, ARABIC, ANIME }
+
+ShowLan stringToShowLan(String showLan) {
+  switch (showLan) {
+    case "en":
+      return ShowLan.ENGLISH;
+    case "ar":
+      return ShowLan.ARABIC;
+    case "anime":
+      return ShowLan.ANIME;
+    default:
+      return ShowLan.ENGLISH;
+  }
+}
+
+String showLanToString(ShowLan showLan) {
+  switch (showLan) {
+    case ShowLan.ENGLISH:
+      return S.current.english;
+    case ShowLan.ARABIC:
+      return S.current.arab;
+    case ShowLan.ANIME:
+      return S.current.anime;
+    default:
+      return S.current.english;
   }
 }

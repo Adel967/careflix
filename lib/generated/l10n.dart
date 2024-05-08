@@ -639,6 +639,26 @@ class S {
       args: [],
     );
   }
+
+  /// `TV show`
+  String get tvShow {
+    return Intl.message(
+      'TV show',
+      name: 'tvShow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Movie`
+  String get movie {
+    return Intl.message(
+      'Movie',
+      name: 'movie',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

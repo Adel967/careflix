@@ -28,7 +28,25 @@ class _SplashScreenState extends State<SplashScreen>
   getData() {
     Future.delayed(Duration(seconds: 3), () {
       User? user = FirebaseAuth.instance.currentUser;
-      sl<SplashProvider>().closeSplash(user);
+      if (user != null) {
+        if (user!.displayName != null && user!.displayName!.isNotEmpty) {
+          Navigator.of(context)
+              .pushNamedAndRemoveUntil(RoutePaths.Home, (route) => false);
+        } else {
+          Navigator.of(context).pushNamedAndRemoveUntil(
+              RoutePaths.SetUpProfileScreen, (route) => false);
+        }
+      } else {
+        if (SharedPreferencesInstance.pref
+                .getBool(SharedPreferencesKeys.FIRST_TIME_KEY) ==
+            null) {
+          Navigator.of(context).pushNamedAndRemoveUntil(
+              RoutePaths.OnBoardingScreen, (route) => false);
+        } else {
+          Navigator.of(context)
+              .pushNamedAndRemoveUntil(RoutePaths.LogIn, (route) => false);
+        }
+      }
     });
   }
 

@@ -65,6 +65,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "login": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
         "logout": MessageLookupByLibrary.simpleMessage("تسجيل الخروج"),
         "male": MessageLookupByLibrary.simpleMessage("ذكر"),
+        "movie": MessageLookupByLibrary.simpleMessage("فلم"),
         "movies": MessageLookupByLibrary.simpleMessage("أفلام"),
         "myList": MessageLookupByLibrary.simpleMessage("قائمتي"),
         "noInternetConnection":
@@ -85,6 +86,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "signup": MessageLookupByLibrary.simpleMessage("إنشاء حساب"),
         "skip": MessageLookupByLibrary.simpleMessage("تخطي"),
         "trending": MessageLookupByLibrary.simpleMessage("رائج"),
+        "tvShow": MessageLookupByLibrary.simpleMessage("مسلسل"),
         "type": MessageLookupByLibrary.simpleMessage("نوع"),
         "welcome": MessageLookupByLibrary.simpleMessage("مرحبا")
       };
