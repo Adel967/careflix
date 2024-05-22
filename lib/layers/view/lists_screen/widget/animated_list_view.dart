@@ -9,8 +9,10 @@ import 'package:careflix/layers/data/model/show.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import '../../../../core/enum.dart';
 import '../../../../core/ui/waiting_widget.dart';
 import '../../../../core/utils/size_config.dart';
+import '../../../../generated/l10n.dart';
 
 class AnimatedListItem extends StatefulWidget {
   const AnimatedListItem({super.key, required this.show});
@@ -64,7 +66,9 @@ class _AnimatedListItemState extends State<AnimatedListItem> {
                       tag: HeroTag.season(widget.show,
                           token: HeroTagTokens.animatedWidget),
                       child: Text(
-                        widget.show.season ?? "First Season",
+                        widget.show.type == ShowType.TV_SHOW
+                            ? "${S.of(context).season}: ${widget.show.season!}"
+                            : "${widget.show.duration.toString()} ${S.of(context).minutes}",
                         style: TextStyle(color: Colors.white),
                       ),
                     )),

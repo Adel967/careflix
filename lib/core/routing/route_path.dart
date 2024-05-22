@@ -1,5 +1,3 @@
-import 'package:careflix/layers/view/settings/app_language_screen.dart';
-
 class RoutePaths {
   static const LogIn = '/LogIn';
   static const Lists = '/Lists';
@@ -14,4 +12,5 @@ class RoutePaths {
   static const SetUpProfileScreen = '/SetUpProfileScreen';
   static const SettingsScreen = '/SettingsScreen';
   static const AppLanguageScreen = '/AppLanguageScreen';
+  static const VideoStreamingScreen = '/VideoStreamingScreen';
 }

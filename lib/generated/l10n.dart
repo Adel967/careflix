@@ -659,6 +659,126 @@ class S {
       args: [],
     );
   }
+
+  /// `Reload`
+  String get reload {
+    return Intl.message(
+      'Reload',
+      name: 'reload',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Season`
+  String get season {
+    return Intl.message(
+      'Season',
+      name: 'season',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Minutes`
+  String get minutes {
+    return Intl.message(
+      'Minutes',
+      name: 'minutes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Email already used. Go to login page.`
+  String get emailUsed {
+    return Intl.message(
+      'Email already used. Go to login page.',
+      name: 'emailUsed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Wrong email/password combination`
+  String get wrongEmailPasswordCombination {
+    return Intl.message(
+      'Wrong email/password combination',
+      name: 'wrongEmailPasswordCombination',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No user found with this email.`
+  String get noUserFound {
+    return Intl.message(
+      'No user found with this email.',
+      name: 'noUserFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Server error, please try again later`
+  String get serverError {
+    return Intl.message(
+      'Server error, please try again later',
+      name: 'serverError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `User disabled`
+  String get userDisabled {
+    return Intl.message(
+      'User disabled',
+      name: 'userDisabled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Too many requests to log into this account`
+  String get tooManyRequests {
+    return Intl.message(
+      'Too many requests to log into this account',
+      name: 'tooManyRequests',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Process failed. Please try again.`
+  String get theProcessFailed {
+    return Intl.message(
+      'Process failed. Please try again.',
+      name: 'theProcessFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `There is an error!`
+  String get thereIsAnError {
+    return Intl.message(
+      'There is an error!',
+      name: 'thereIsAnError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Episodes`
+  String get episodes {
+    return Intl.message(
+      'Episodes',
+      name: 'episodes',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

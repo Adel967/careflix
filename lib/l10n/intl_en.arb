@@ -62,5 +62,17 @@
   "logout": "Logout",
   "setUpProfile": "Setup your profile",
   "tvShow": "TV show",
-  "movie": "Movie"
+  "movie": "Movie",
+  "reload": "Reload",
+  "season": "Season",
+  "minutes": "Minutes",
+  "emailUsed": "Email already used. Go to login page.",
+  "wrongEmailPasswordCombination": "Wrong email/password combination",
+  "noUserFound": "No user found with this email.",
+  "serverError": "Server error, please try again later",
+  "userDisabled": "User disabled",
+  "tooManyRequests": "Too many requests to log into this account",
+  "theProcessFailed": "Process failed. Please try again.",
+  "thereIsAnError": "There is an error!",
+  "episodes": "Episodes"
 }

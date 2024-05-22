@@ -1,7 +1,9 @@
 import 'dart:math';
 import 'package:careflix/core/configuration/styles.dart';
 import 'package:careflix/core/constants.dart';
+import 'package:careflix/core/enum.dart';
 import 'package:careflix/core/ui/custom_dropdown.dart';
+import 'package:careflix/layers/data/params/search_params.dart';
 import 'package:careflix/layers/view/lists_screen/widget/heading_widget.dart';
 import 'package:careflix/layers/view/search_screen/filters/show_filter_cubit.dart';
 import 'package:careflix/layers/view/search_screen/filters/show_filter_state.dart';
@@ -42,7 +44,6 @@ class _FilterSearchScreenState extends State<FilterSearchScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    print(_showFilterCubit.state.selectedCategories);
   }
 
   @override
@@ -54,7 +55,6 @@ class _FilterSearchScreenState extends State<FilterSearchScreen> {
       body: BlocBuilder<ShowFilterCubit, ShowFilterState>(
         bloc: _showFilterCubit,
         builder: (context, state) {
-          print(state.selectedCategories);
           return Padding(
             padding: EdgeInsets.symmetric(horizontal: 40.0.w),
             child: Column(
@@ -99,9 +99,12 @@ class _FilterSearchScreenState extends State<FilterSearchScreen> {
                         ),
                       );
                     }).toList(),
-                    selectedValue: state.showType,
+                    selectedValue: state.showLan != null
+                        ? showLanToString(state.showLan!)
+                        : null,
                     onChanged: (value) {
-                      _showFilterCubit.onChangeFilterData(showType: value);
+                      _showFilterCubit.onChangeFilterData(
+                          showType: stringToShowLanFilter(value));
                     },
                   ),
                 ),
@@ -199,7 +202,14 @@ class _FilterSearchScreenState extends State<FilterSearchScreen> {
                   children: [
                     Expanded(
                         child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).pop(SearchParams(
+                            year: state.dateYear != null
+                                ? state.dateYear.toString()
+                                : "",
+                            categories: state.selectedCategories,
+                            showLan: state.showLan));
+                      },
                       child: Text(
                         S.of(context).save,
                         style: TextStyle(color: Colors.white),

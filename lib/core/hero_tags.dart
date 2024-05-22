@@ -4,7 +4,6 @@ import 'enum.dart' as Enums;
 
 class HeroTag {
   static String image(String urlImage, {required Enums.HeroTagsTypes token}) {
-    print("image:" + urlImage + Enums.HeroTagsEnumToString(token));
     return urlImage + Enums.HeroTagsEnumToString(token);
   }
 

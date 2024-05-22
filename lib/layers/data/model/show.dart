@@ -10,6 +10,7 @@ List<Show> getShowListFromListMap(List<QueryDocumentSnapshot> list) =>
     List<Show>.from(list.map((x) => Show.fromMap(x)));
 
 class Show {
+  final String id;
   final String title;
   final String description;
   final String? season;
@@ -23,6 +24,7 @@ class Show {
   final ShowLan? showLan;
 
   Show({
+    required this.id,
     required this.title,
     required this.description,
     this.season,
@@ -50,13 +52,14 @@ class Show {
     };
   }
 
-  factory Show.fromMap(dynamic map) {
+  factory Show.fromMap(QueryDocumentSnapshot map) {
     return Show(
+      id: map.id,
       title: map['title'],
       description: map['description'],
-      season: map['season_number'].toString(),
+      season: map['season_number'].toString().replaceAll('.0', ""),
       imageUrl: map['imageUrl'],
-      duration: map['duration'].toString(),
+      duration: map['duration'].toString().replaceAll('.0', ""),
       rating: map['rating'],
       category: map['category'].toString().split(","),
       episodeNum:

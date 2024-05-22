@@ -1,17 +1,24 @@
 import 'dart:math';
-
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:careflix/core/enum.dart';
+import 'package:careflix/core/routing/route_path.dart';
+import 'package:careflix/core/ui/waiting_widget.dart';
+import 'package:careflix/core/utils.dart';
+import 'package:careflix/layers/data/model/episode.dart';
+import 'package:careflix/layers/logic/show_video/show_video_cubit.dart';
+import 'package:careflix/layers/view/lists_screen/widget/heading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:outline_gradient_button/outline_gradient_button.dart';
-
 import '../../../../core/configuration/styles.dart';
 import '../../../../core/hero_tags.dart';
 import '../../../../core/ui/gradient_widget.dart';
 import '../../../../core/ui/hero_widget.dart';
 import '../../../../core/ui/responsive_text.dart';
 import '../../../../generated/l10n.dart';
+import '../../../../injection_container.dart';
 import '../../../data/model/show.dart';
 
 class ContentBody extends StatefulWidget {
@@ -26,11 +33,15 @@ class ContentBody extends StatefulWidget {
 
 class _ContentBodyState extends State<ContentBody> {
   bool isTopAndBottomStarsAnimated = false;
+  final _showVideoCubit = sl<ShowVideoCubit>();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    if (widget.show.type == ShowType.TV_SHOW) {
+      _showVideoCubit.getShowVideo(widget.show);
+    }
     Future.delayed(Duration(milliseconds: 700), () {
       setState(() {
         isTopAndBottomStarsAnimated = true;
@@ -40,101 +51,172 @@ class _ContentBodyState extends State<ContentBody> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      HeroWidget(
-                        tag:
-                            HeroTag.title(widget.show, token: widget.heroToken),
-                        child: ResponsiveText(
-                          textWidget: Text(
-                            widget.show.title,
-                            style: Theme.of(context)
-                                .textTheme
-                                .headlineLarge
-                                ?.copyWith(
-                                    fontFamily: "Rubik",
-                                    fontWeight: FontWeight.w700),
-                          ),
-                        ),
-                      ),
-                      CommonSizes.vSmallerSpace,
-                      Visibility(
-                        visible: widget.show.season != null &&
-                            widget.show.season!.isNotEmpty,
-                        child: HeroWidget(
-                          tag: HeroTag.season(widget.show,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        HeroWidget(
+                          tag: HeroTag.title(widget.show,
                               token: widget.heroToken),
                           child: ResponsiveText(
                             textWidget: Text(
-                              widget.show.season ?? "First",
+                              widget.show.title,
                               style: Theme.of(context)
                                   .textTheme
-                                  .titleMedium
+                                  .headlineLarge
                                   ?.copyWith(
-                                      color: Theme.of(context)
-                                          .textTheme
-                                          .titleMedium
-                                          ?.color
-                                          ?.withOpacity(0.8)),
+                                      fontFamily: "Rubik",
+                                      fontWeight: FontWeight.w700),
                             ),
                           ),
                         ),
-                      ),
-                      CommonSizes.vSmallerSpace,
-                      Wrap(
-                        spacing: 10,
-                        runSpacing: 10,
-                        children:
-                            List.generate(widget.show.category.length, (index) {
-                          final title = widget.show.category[index];
-                          return Chip(
-                            backgroundColor: Styles.categoryColors[
-                                Random().nextInt(Styles.categoryColors.length)],
-                            label: Text(title),
-                            side: BorderSide.none,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20)),
-                          );
-                        }),
-                      )
-                    ],
+                        CommonSizes.vSmallerSpace,
+                        Visibility(
+                          visible: widget.show.season != null &&
+                              widget.show.season!.isNotEmpty,
+                          child: HeroWidget(
+                            tag: HeroTag.season(widget.show,
+                                token: widget.heroToken),
+                            child: ResponsiveText(
+                              textWidget: Text(
+                                widget.show.type == ShowType.TV_SHOW
+                                    ? "${S.of(context).season}: ${widget.show.season!}"
+                                    : "${widget.show.duration.toString()} ${S.of(context).minutes}",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleMedium
+                                    ?.copyWith(
+                                        color: Theme.of(context)
+                                            .textTheme
+                                            .titleMedium
+                                            ?.color
+                                            ?.withOpacity(0.8)),
+                              ),
+                            ),
+                          ),
+                        ),
+                        CommonSizes.vSmallerSpace,
+                        Wrap(
+                          spacing: 10,
+                          runSpacing: 10,
+                          children: List.generate(widget.show.category.length,
+                              (index) {
+                            final title = widget.show.category[index];
+                            return Chip(
+                              backgroundColor: Styles.categoryColors[Random()
+                                  .nextInt(Styles.categoryColors.length)],
+                              label: Text(title),
+                              side: BorderSide.none,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20)),
+                            );
+                          }),
+                        )
+                      ],
+                    ),
                   ),
-                ),
-                _buildRatingWidget(context),
-              ],
+                  _buildRatingWidget(context),
+                ],
+              ),
+              CommonSizes.vSmallSpace,
+              HeadingWidget(
+                  padding: 0,
+                  title: S.of(context).introduction,
+                  child: Text(
+                    widget.show.description,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        fontFamily: "Rubik",
+                        color: Theme.of(context)
+                            .textTheme
+                            .bodyMedium
+                            ?.color
+                            ?.withOpacity(0.7)),
+                  )),
+            ],
+          ),
+        ),
+        CommonSizes.vSmallSpace,
+        Visibility(
+          visible: widget.show.type == ShowType.TV_SHOW,
+          child: HeadingWidget(
+            padding: 20,
+            title: S.of(context).episodes + " (${widget.show.episodeNum})",
+            child: BlocBuilder<ShowVideoCubit, ShowVideoState>(
+              bloc: _showVideoCubit,
+              builder: (context, state) {
+                if (state is ShowVideoLoaded) {
+                  return Container(
+                    height: 150,
+                    child: ListView.separated(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      scrollDirection: Axis.horizontal,
+                      itemCount: state.episodes.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        Episode episode = state.episodes[index];
+                        return GestureDetector(
+                          onTap: () => Navigator.of(context).pushNamed(
+                              RoutePaths.VideoStreamingScreen,
+                              arguments: {"episode": episode}),
+                          child: Utils.clipWidget(Stack(
+                            children: [
+                              CachedNetworkImage(
+                                  imageUrl: widget.show.imageUrl),
+                              Positioned.fill(
+                                child: Container(
+                                  color: Colors.black.withOpacity(0.4),
+                                  child: Center(
+                                    child: Text(
+                                      episode.number,
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 25,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )),
+                        );
+                      },
+                      separatorBuilder: (BuildContext context, int index) {
+                        return SizedBox(
+                          width: 15,
+                        );
+                      },
+                    ),
+                  );
+                } else if (state is ShowVideoLoading) {
+                  return Container(
+                    height: 150,
+                    child: Center(
+                      child: WaitingWidget(),
+                    ),
+                  );
+                } else if (state is ShowVideoError) {
+                  return Container(
+                    height: 150,
+                    child: Center(
+                      child: Text(state.error),
+                    ),
+                  );
+                }
+                return SizedBox();
+              },
             ),
-            CommonSizes.vSmallSpace,
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  S.of(context).introduction,
-                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                      fontFamily: "Rubik", fontWeight: FontWeight.w500),
-                ),
-                Text(
-                  widget.show.description,
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontFamily: "Rubik",
-                      color: Theme.of(context)
-                          .textTheme
-                          .bodyMedium
-                          ?.color
-                          ?.withOpacity(0.7)),
-                )
-              ],
-            )
-          ],
-        ));
+          ),
+        ),
+      ],
+    );
   }
 
   Stack _buildRatingWidget(BuildContext context) {

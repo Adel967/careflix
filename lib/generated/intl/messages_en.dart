@@ -45,7 +45,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "dateOfBirth": MessageLookupByLibrary.simpleMessage("Date of birth"),
         "drama": MessageLookupByLibrary.simpleMessage("Drama"),
         "email": MessageLookupByLibrary.simpleMessage("Email"),
+        "emailUsed": MessageLookupByLibrary.simpleMessage(
+            "Email already used. Go to login page."),
         "english": MessageLookupByLibrary.simpleMessage("English"),
+        "episodes": MessageLookupByLibrary.simpleMessage("Episodes"),
         "female": MessageLookupByLibrary.simpleMessage("Female"),
         "fill_all_fields":
             MessageLookupByLibrary.simpleMessage("Fill all fields"),
@@ -65,11 +68,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "login": MessageLookupByLibrary.simpleMessage("Login"),
         "logout": MessageLookupByLibrary.simpleMessage("Logout"),
         "male": MessageLookupByLibrary.simpleMessage("Male"),
+        "minutes": MessageLookupByLibrary.simpleMessage("Minutes"),
         "movie": MessageLookupByLibrary.simpleMessage("Movie"),
         "movies": MessageLookupByLibrary.simpleMessage("Movies"),
         "myList": MessageLookupByLibrary.simpleMessage("My List"),
         "noInternetConnection":
             MessageLookupByLibrary.simpleMessage("No Internet Connection"),
+        "noUserFound": MessageLookupByLibrary.simpleMessage(
+            "No user found with this email."),
         "no_account":
             MessageLookupByLibrary.simpleMessage("Don\'t have an account?"),
         "notFoundException": MessageLookupByLibrary.simpleMessage("Not found"),
@@ -77,20 +83,33 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Parental Control"),
         "password": MessageLookupByLibrary.simpleMessage("Password"),
         "play": MessageLookupByLibrary.simpleMessage("Play"),
+        "reload": MessageLookupByLibrary.simpleMessage("Reload"),
         "reset": MessageLookupByLibrary.simpleMessage("Reset"),
         "romance": MessageLookupByLibrary.simpleMessage("Romance"),
         "save": MessageLookupByLibrary.simpleMessage("Save"),
         "search": MessageLookupByLibrary.simpleMessage("Search"),
+        "season": MessageLookupByLibrary.simpleMessage("Season"),
         "series": MessageLookupByLibrary.simpleMessage("Series"),
+        "serverError": MessageLookupByLibrary.simpleMessage(
+            "Server error, please try again later"),
         "setUpProfile":
             MessageLookupByLibrary.simpleMessage("Setup your profile"),
         "settings": MessageLookupByLibrary.simpleMessage("Settings"),
         "share": MessageLookupByLibrary.simpleMessage("Share"),
         "signup": MessageLookupByLibrary.simpleMessage("SignUp"),
         "skip": MessageLookupByLibrary.simpleMessage("Skip"),
+        "theProcessFailed": MessageLookupByLibrary.simpleMessage(
+            "Process failed. Please try again."),
+        "thereIsAnError":
+            MessageLookupByLibrary.simpleMessage("There is an error!"),
+        "tooManyRequests": MessageLookupByLibrary.simpleMessage(
+            "Too many requests to log into this account"),
         "trending": MessageLookupByLibrary.simpleMessage("Trending"),
         "tvShow": MessageLookupByLibrary.simpleMessage("TV show"),
         "type": MessageLookupByLibrary.simpleMessage("Type"),
-        "welcome": MessageLookupByLibrary.simpleMessage("Welcome")
+        "userDisabled": MessageLookupByLibrary.simpleMessage("User disabled"),
+        "welcome": MessageLookupByLibrary.simpleMessage("Welcome"),
+        "wrongEmailPasswordCombination": MessageLookupByLibrary.simpleMessage(
+            "Wrong email/password combination")
       };
 }

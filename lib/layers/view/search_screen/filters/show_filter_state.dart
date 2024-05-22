@@ -1,38 +1,39 @@
+import 'package:careflix/core/enum.dart';
 import 'package:equatable/equatable.dart';
 
 class ShowFilterState extends Equatable {
   final int? dateYear;
-  final String? showType;
+  final ShowLan? showLan;
   final List<String> selectedCategories;
 
   const ShowFilterState(
-      {this.dateYear, this.showType, this.selectedCategories = const []});
+      {this.dateYear, this.showLan, this.selectedCategories = const []});
 
   ShowFilterState copyWith({
     int? dateYear,
-    String? showType,
+    ShowLan? showType,
     List<String>? selectedCategories,
   }) {
     return ShowFilterState(
       dateYear: dateYear ?? this.dateYear,
-      showType: showType ?? this.showType,
+      showLan: showType ?? this.showLan,
       selectedCategories: selectedCategories ?? this.selectedCategories,
     );
   }
 
   ShowFilterState copyWithNull({
     int? dateYear,
-    String? showType,
+    ShowLan? showType,
     List<String>? selectedCategories,
   }) {
     return ShowFilterState(
       dateYear: dateYear,
-      showType: showType,
+      showLan: showType,
       selectedCategories: [],
     );
   }
 
   @override
   List<Object?> get props =>
-      [this.dateYear, this.showType, this.selectedCategories];
+      [this.dateYear, this.showLan, this.selectedCategories];
 }

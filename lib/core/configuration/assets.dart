@@ -5,6 +5,7 @@ class AssetsLink {
   //images
   static const LOADING_IMAGE = "assets/images/png/loadingImage.png";
   static const APP_LOGO = "assets/images/png/app_logo.png";
+  static const WARNING_LOGO = "assets/images/png/warning.png";
 
   //illustration
   static const PARENTAL_CONTROL =

@@ -1,3 +1,4 @@
+import 'package:careflix/core/app/state/app_state.dart';
 import 'package:careflix/core/configuration/styles.dart';
 import 'package:careflix/core/routing/router.dart';
 import 'package:careflix/core/services/assets_loader.dart';
@@ -5,24 +6,18 @@ import 'package:careflix/core/shared_preferences/shared_preferences_instance.dar
 import 'package:careflix/core/theme/theme_provider.dart';
 import 'package:careflix/injection_container.dart';
 import 'package:careflix/l10n/l10n.dart';
-import 'package:careflix/layers/logic/splash__provider.dart';
 import 'package:careflix/layers/view/intro/splash_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-
 import 'core/routing/route_path.dart';
-import 'core/shared_preferences/shared_preferences_key.dart';
 import 'firebase_options.dart';
 import 'generated/l10n.dart';
 import 'l10n/local_provider.dart';
-import 'layers/view/auth/login_screen.dart';
-import 'layers/view/auth/setup_profile_screen.dart';
-import 'layers/view/home_screen.dart';
-import 'layers/view/intro/onboarding_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,17 +29,13 @@ void main() async {
   await sl<ThemeProvider>().initThemeMode();
   await sl<LocaleProvider>().fetchLocale();
   AssetsLoader.initAssetsLoaders();
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   runApp(MyApp());
-}
-
-Stream<User?> getUserState() {
-  return FirebaseAuth.instance.userChanges();
 }
 
 class MyApp extends StatelessWidget {
   MyApp({super.key});
-
-  final user = getUserState();
 
   // This widget is the root of your application.
   @override
@@ -53,12 +44,11 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => sl<LocaleProvider>()),
         ChangeNotifierProvider(create: (context) => sl<ThemeProvider>()),
-        ChangeNotifierProvider(create: (context) => sl<SplashProvider>()),
+        ChangeNotifierProvider(create: (context) => sl<AppState>()),
       ],
       builder: (context, state) {
         final localizationProvider = Provider.of<LocaleProvider>(context);
         final themeProvider = Provider.of<ThemeProvider>(context);
-        final splashProvider = Provider.of<SplashProvider>(context);
         return ScreenUtilInit(
           designSize: Size(1080, 1920),
           minTextAdapt: true,

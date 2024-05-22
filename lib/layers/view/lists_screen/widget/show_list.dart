@@ -39,15 +39,19 @@ class ShowList extends StatelessWidget {
               child: Stack(
                 children: [
                   Image.asset(
+                    height: isOriginals ? 350 : 200,
+                    width: isOriginals ? 230 : 130,
                     AssetsLink.LOADING_IMAGE,
                     fit: BoxFit.cover,
                   ),
                   HeroWidget(
                     tag: HeroTag.image(content.imageUrl, token: token),
                     child: CachedNetworkImage(
-                        imageUrl: content.imageUrl,
-                        fit: BoxFit.cover,
-                        ),
+                      height: isOriginals ? 350 : 200,
+                      width: isOriginals ? 230 : 130,
+                      imageUrl: content.imageUrl,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ],
               ),

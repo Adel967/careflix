@@ -1,4 +1,5 @@
 import 'package:careflix/core/enum.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserModel {
   String? id;
@@ -9,6 +10,7 @@ class UserModel {
   Gender? gender;
   String? createdAt;
   String? pushToken;
+  List<String> userListIds;
 
   UserModel(
       {required this.id,
@@ -18,6 +20,7 @@ class UserModel {
       required this.birthDate,
       required this.gender,
       required this.createdAt,
+      this.userListIds = const [],
       required this.pushToken});
 
   Map<String, dynamic> toMap() {
@@ -30,19 +33,20 @@ class UserModel {
       'gender': genderToString(this.gender!),
       'createdAt': this.createdAt,
       'pushToken': this.pushToken,
+      'userListsIds': this.userListIds
     };
   }
 
-  factory UserModel.fromMap(Map<String, dynamic> map) {
+  factory UserModel.fromMap(DocumentSnapshot<Map<String, dynamic>> map) {
     return UserModel(
-      id: map['id'],
-      email: map['email'],
-      firstName: map['firstName'],
-      lastName: map['lastName'],
-      birthDate: map['birthDate'],
-      gender: stringToGender(map['gender']),
-      createdAt: map['createdAt'],
-      pushToken: map['pushToken'],
-    );
+        id: map['id'],
+        email: map['email'],
+        firstName: map['firstName'],
+        lastName: map['lastName'],
+        birthDate: map['birthDate'],
+        gender: stringToGender(map['gender']),
+        createdAt: map['createdAt'],
+        pushToken: map['pushToken'],
+        userListIds: List<String>.from(map['userListsIds']));
   }
 }

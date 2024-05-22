@@ -8,7 +8,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 
+import '../../../core/app/state/app_state.dart';
 import '../../../core/loaders/loading_overlay.dart';
 import '../../../core/utils.dart';
 import '../../../core/validators/validators.dart';
@@ -72,10 +74,11 @@ class _SetUpProfileScreenState extends State<SetUpProfileScreen> {
       ),
       body: BlocListener<ProfileCubit, ProfileState>(
         bloc: _profileCubit,
-        listener: (context, state) {
+        listener: (context, state) async {
           if (state is ProfileUploading) {
             LoadingOverlay.of(context).show();
           } else if (state is ProfileUploaded) {
+            await Provider.of<AppState>(context, listen: false).init();
             LoadingOverlay.of(context).hide();
             Navigator.of(context)
                 .pushNamedAndRemoveUntil(RoutePaths.Home, (route) => false);

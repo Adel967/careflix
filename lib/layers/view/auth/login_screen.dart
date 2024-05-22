@@ -7,6 +7,8 @@ import 'package:careflix/layers/view/auth/widgets/animated_background.dart';
 import 'package:careflix/layers/view/auth/widgets/gradient_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
+import '../../../core/app/state/app_state.dart';
 import '../../../core/loaders/loading_overlay.dart';
 import '../../../core/utils.dart';
 import '../../../generated/l10n.dart';
@@ -45,15 +47,22 @@ class _LogInScreenState extends State<LogInScreen> {
     return Scaffold(
       body: BlocListener<AuthCubit, AuthState>(
         bloc: _authCubit,
-        listener: (context, state) {
+        listener: (context, state) async {
           if (state is AuthLoading) {
             LoadingOverlay.of(context).show();
           } else if (state is AuthLoaded) {
-            LoadingOverlay.of(context).hide();
-            if(state.user!.displayName != null && state.user!.displayName!.isNotEmpty){
-              Navigator.of(context).pushNamedAndRemoveUntil(RoutePaths.Home, (route) => false);
-            }else{
-              Navigator.of(context).pushNamedAndRemoveUntil(RoutePaths.SetUpProfileScreen, (route) => false);
+            if (state.user!.displayName != null &&
+                state.user!.displayName!.isNotEmpty) {
+              await Provider.of<AppState>(context, listen: false).init();
+              LoadingOverlay.of(context).hide();
+
+              Navigator.of(context)
+                  .pushNamedAndRemoveUntil(RoutePaths.Home, (route) => false);
+            } else {
+              LoadingOverlay.of(context).hide();
+
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                  RoutePaths.SetUpProfileScreen, (route) => false);
             }
           } else if (state is AuthError) {
             LoadingOverlay.of(context).hide();

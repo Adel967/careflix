@@ -61,5 +61,21 @@
   "logout": "تسجيل الخروج",
   "setUpProfile": "انشأ ملف شخصي",
   "tvShow": "مسلسل",
-  "movie": "فلم"
+  "movie": "فلم",
+  "reload": "إعادة المحاولة",
+  "season": "الجزء",
+  "minutes": "دقائق",
+  "emailUsed": "يوجد حساب لهذا البريد الإلكتروني",
+  "wrongEmailPasswordCombination": "البريد الإلكتروني أو كلمة السر غير صحيحين",
+  "noUserFound": "لا يوجد مستخدم بهذا البريد الإلكتروني",
+  "serverError": "خطأ بالسيرفر, حاول مرة أخرى",
+  "userDisabled": "تم إيقاف حساب المستخدم",
+  "tooManyRequests": "هناك عمليات كثيرة لتسجيل الدخول إلى هذا الحساب",
+  "theProcessFailed": "العملية فشلت, حاول مرة أخرى",
+  "thereIsAnError": "هناك خطأ",
+  "episodes": "الحلقات"
+
+
+
+
 }

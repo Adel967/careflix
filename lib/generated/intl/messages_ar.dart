@@ -44,7 +44,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "dateOfBirth": MessageLookupByLibrary.simpleMessage("تاريخ الميلاد"),
         "drama": MessageLookupByLibrary.simpleMessage("دراما"),
         "email": MessageLookupByLibrary.simpleMessage("البريد الإلكتروني"),
+        "emailUsed": MessageLookupByLibrary.simpleMessage(
+            "يوجد حساب لهذا البريد الإلكتروني"),
         "english": MessageLookupByLibrary.simpleMessage("أجنبي"),
+        "episodes": MessageLookupByLibrary.simpleMessage("الحلقات"),
         "female": MessageLookupByLibrary.simpleMessage("أنثى"),
         "fill_all_fields":
             MessageLookupByLibrary.simpleMessage("املأ جميع الحقول"),
@@ -65,29 +68,45 @@ class MessageLookup extends MessageLookupByLibrary {
         "login": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
         "logout": MessageLookupByLibrary.simpleMessage("تسجيل الخروج"),
         "male": MessageLookupByLibrary.simpleMessage("ذكر"),
+        "minutes": MessageLookupByLibrary.simpleMessage("دقائق"),
         "movie": MessageLookupByLibrary.simpleMessage("فلم"),
         "movies": MessageLookupByLibrary.simpleMessage("أفلام"),
         "myList": MessageLookupByLibrary.simpleMessage("قائمتي"),
         "noInternetConnection":
             MessageLookupByLibrary.simpleMessage("لايوجد إتصال بالانترنت"),
+        "noUserFound": MessageLookupByLibrary.simpleMessage(
+            "لا يوجد مستخدم بهذا البريد الإلكتروني"),
         "no_account": MessageLookupByLibrary.simpleMessage("لا تملك حساب ؟"),
         "notFoundException": MessageLookupByLibrary.simpleMessage("غير موجود"),
         "parentalControl": MessageLookupByLibrary.simpleMessage("مراقبة أسرية"),
         "password": MessageLookupByLibrary.simpleMessage("كلمة المرور"),
         "play": MessageLookupByLibrary.simpleMessage("شاهد"),
+        "reload": MessageLookupByLibrary.simpleMessage("إعادة المحاولة"),
         "reset": MessageLookupByLibrary.simpleMessage("إلغاء"),
         "romance": MessageLookupByLibrary.simpleMessage("رمنسي"),
         "save": MessageLookupByLibrary.simpleMessage("حفظ"),
         "search": MessageLookupByLibrary.simpleMessage("بحث"),
+        "season": MessageLookupByLibrary.simpleMessage("الجزء"),
         "series": MessageLookupByLibrary.simpleMessage("مسلسلات"),
+        "serverError":
+            MessageLookupByLibrary.simpleMessage("خطأ بالسيرفر, حاول مرة أخرى"),
         "setUpProfile": MessageLookupByLibrary.simpleMessage("انشأ ملف شخصي"),
         "settings": MessageLookupByLibrary.simpleMessage("الإعدادات"),
         "share": MessageLookupByLibrary.simpleMessage("شارك"),
         "signup": MessageLookupByLibrary.simpleMessage("إنشاء حساب"),
         "skip": MessageLookupByLibrary.simpleMessage("تخطي"),
+        "theProcessFailed":
+            MessageLookupByLibrary.simpleMessage("العملية فشلت, حاول مرة أخرى"),
+        "thereIsAnError": MessageLookupByLibrary.simpleMessage("هناك خطأ"),
+        "tooManyRequests": MessageLookupByLibrary.simpleMessage(
+            "هناك عمليات كثيرة لتسجيل الدخول إلى هذا الحساب"),
         "trending": MessageLookupByLibrary.simpleMessage("رائج"),
         "tvShow": MessageLookupByLibrary.simpleMessage("مسلسل"),
         "type": MessageLookupByLibrary.simpleMessage("نوع"),
-        "welcome": MessageLookupByLibrary.simpleMessage("مرحبا")
+        "userDisabled":
+            MessageLookupByLibrary.simpleMessage("تم إيقاف حساب المستخدم"),
+        "welcome": MessageLookupByLibrary.simpleMessage("مرحبا"),
+        "wrongEmailPasswordCombination": MessageLookupByLibrary.simpleMessage(
+            "البريد الإلكتروني أو كلمة السر غير صحيحين")
       };
 }

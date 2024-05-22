@@ -3,15 +3,17 @@ import 'package:careflix/layers/view/settings/widgets/day_night_button.dart';
 import 'package:careflix/layers/view/settings/widgets/settings_card.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
 import '../../../core/routing/route_path.dart';
 import '../../../generated/l10n.dart';
+import '../../../injection_container.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
 
   signOut(BuildContext context) async {
-    await FirebaseAuth.instance.signOut();
+    await Future.wait(
+        [FirebaseAuth.instance.signOut(), sl.reset(dispose: false)]);
+    initInjection();
     Navigator.of(context)
         .pushNamedAndRemoveUntil(RoutePaths.LogIn, (route) => false);
   }

@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+
 import '../generated/l10n.dart';
 
 enum HeroTagsTypes {
@@ -86,6 +88,29 @@ ShowLan stringToShowLan(String showLan) {
       return ShowLan.ANIME;
     default:
       return ShowLan.ENGLISH;
+  }
+}
+
+String showLanToStringData(ShowLan showLan) {
+  switch (showLan) {
+    case ShowLan.ENGLISH:
+      return "en";
+    case ShowLan.ARABIC:
+      return "ar";
+    case ShowLan.ANIME:
+      return "anime";
+    default:
+      return "en";
+  }
+}
+
+ShowLan stringToShowLanFilter(String showLan) {
+  if (S.current.english == showLan) {
+    return ShowLan.ENGLISH;
+  } else if (S.current.arab == showLan) {
+    return ShowLan.ARABIC;
+  } else {
+    return ShowLan.ANIME;
   }
 }
 

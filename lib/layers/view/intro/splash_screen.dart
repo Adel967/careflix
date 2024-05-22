@@ -1,11 +1,11 @@
 import 'dart:io';
+import 'package:careflix/core/app/state/app_state.dart';
 import 'package:careflix/core/configuration/assets.dart';
 import 'package:careflix/core/configuration/styles.dart';
 import 'package:careflix/core/routing/route_path.dart';
 import 'package:careflix/core/shared_preferences/shared_preferences_instance.dart';
 import 'package:careflix/core/utils/size_config.dart';
 import 'package:careflix/l10n/local_provider.dart';
-import 'package:careflix/layers/logic/splash__provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -23,47 +23,64 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
-  late Animation _animation;
-
-  getData() {
-    Future.delayed(Duration(seconds: 3), () {
-      User? user = FirebaseAuth.instance.currentUser;
-      if (user != null) {
-        if (user!.displayName != null && user!.displayName!.isNotEmpty) {
-          Navigator.of(context)
-              .pushNamedAndRemoveUntil(RoutePaths.Home, (route) => false);
-        } else {
-          Navigator.of(context).pushNamedAndRemoveUntil(
-              RoutePaths.SetUpProfileScreen, (route) => false);
-        }
-      } else {
-        if (SharedPreferencesInstance.pref
-                .getBool(SharedPreferencesKeys.FIRST_TIME_KEY) ==
-            null) {
-          Navigator.of(context).pushNamedAndRemoveUntil(
-              RoutePaths.OnBoardingScreen, (route) => false);
-        } else {
-          Navigator.of(context)
-              .pushNamedAndRemoveUntil(RoutePaths.LogIn, (route) => false);
-        }
-      }
-    });
-  }
+  late Animation<Color?> _animation;
 
   @override
   void initState() {
     super.initState();
-    _animationController =
-        AnimationController(vsync: this, duration: Duration(seconds: 1));
+    _initializeAnimation();
+    _navigateAfterDelay();
+  }
 
-    _animation =
-        ColorTween(begin: Styles.colorPrimary, end: Styles.backgroundColor)
-            .animate(_animationController);
+  void _initializeAnimation() {
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 1),
+    );
+    _animation = ColorTween(
+      begin: Styles.colorPrimary,
+      end: Styles.backgroundColor,
+    ).animate(_animationController);
+
     _animationController.forward();
     _animationController.addListener(() {
       setState(() {});
     });
-    getData();
+  }
+
+  Future<void> _navigateAfterDelay() async {
+    await Future.delayed(const Duration(seconds: 3));
+    User? user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      _navigateBasedOnUserProfile(user);
+    } else {
+      _navigateBasedOnFirstTime();
+    }
+  }
+
+  void _navigateBasedOnUserProfile(User user) async {
+    if (user.displayName != null && user.displayName!.isNotEmpty) {
+      await Provider.of<AppState>(context, listen: false).init();
+      _navigateTo(RoutePaths.Home);
+    } else {
+      _navigateTo(RoutePaths.SetUpProfileScreen);
+    }
+  }
+
+  void _navigateBasedOnFirstTime() {
+    bool? isFirstTime = SharedPreferencesInstance.pref
+        .getBool(SharedPreferencesKeys.FIRST_TIME_KEY);
+
+    if (isFirstTime == null || isFirstTime) {
+      _navigateTo(RoutePaths.OnBoardingScreen);
+    } else {
+      _navigateTo(RoutePaths.LogIn);
+    }
+  }
+
+  void _navigateTo(String route) {
+    Navigator.of(context).pushNamedAndRemoveUntil(route, (route) => false);
   }
 
   @override
@@ -75,10 +92,12 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
+
     return Scaffold(
-        backgroundColor: _animation.value,
-        body: Center(
-          child: Image.asset(AssetsLink.APP_LOGO),
-        ));
+      backgroundColor: _animation.value,
+      body: Center(
+        child: Image.asset(AssetsLink.APP_LOGO),
+      ),
+    );
   }
 }

@@ -38,4 +38,13 @@ class ListsRepository {
     final List<Show> shows = getShowListFromListMap(res.docs);
     return shows;
   }
+
+  Future<List<Show>> getUserList(List<String> ids) async {
+    if (ids.isNotEmpty) {
+      final res = await _listsProvider.getUserLists(ids);
+      final List<Show> shows = getShowListFromListMap(res.docs);
+      return shows;
+    }
+    return [];
+  }
 }

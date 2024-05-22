@@ -12,6 +12,7 @@ import 'package:careflix/layers/view/search_screen/search_screen.dart';
 import 'package:careflix/layers/view/settings/app_language_screen.dart';
 import 'package:careflix/layers/view/settings/settings_screen.dart';
 import 'package:careflix/layers/view/show_detail_screen/show_detail_screen.dart';
+import 'package:careflix/layers/view/show_detail_screen/video_streaming_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -64,6 +65,12 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const SettingsScreen());
       case RoutePaths.AppLanguageScreen:
         return MaterialPageRoute(builder: (_) => const AppLanguageScreen());
+      case RoutePaths.VideoStreamingScreen:
+        final arguments = settings.arguments ?? <String, dynamic>{} as Map;
+        return MaterialPageRoute(
+            builder: (_) => VideoStreamingScreen(
+                  episode: (arguments as Map)["episode"],
+                ));
       default:
         return MaterialPageRoute(
           builder: (_) => const Scaffold(

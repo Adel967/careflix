@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:careflix/core/configuration/assets.dart';
 import 'package:careflix/core/configuration/styles.dart';
+import 'package:careflix/core/enum.dart';
 import 'package:careflix/core/routing/route_path.dart';
 import 'package:careflix/core/ui/hero_widget.dart';
 import 'package:careflix/core/utils.dart';
@@ -15,6 +16,7 @@ import 'package:provider/provider.dart';
 import '../../../../core/hero_tags.dart';
 import '../../../../core/ui/waiting_widget.dart';
 import '../../../../core/utils/size_config.dart';
+import '../../../../generated/l10n.dart';
 import '../../../data/model/show.dart';
 
 class MovieCard extends StatelessWidget {
@@ -133,6 +135,9 @@ class MovieCard extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         SizedBox(
+          height: 5,
+        ),
+        SizedBox(
           width: SizeConfig.screenWidth * 0.35,
           child: HeroWidget(
             tag: HeroTag.title(show, token: HeroTagTokens.movieCard),
@@ -150,7 +155,10 @@ class MovieCard extends StatelessWidget {
         ),
         HeroWidget(
           tag: HeroTag.season(show, token: HeroTagTokens.movieCard),
-          child: Text(show.season ?? "First",
+          child: Text(
+              show.type == ShowType.TV_SHOW
+                  ? "${S.of(context).season}: ${show.season!}"
+                  : "${show.duration.toString()} ${S.of(context).minutes}",
               style: Theme.of(context)
                   .textTheme
                   .bodyMedium!

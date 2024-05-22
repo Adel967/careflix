@@ -4,7 +4,6 @@ import 'package:careflix/core/hero_tags.dart';
 import 'package:careflix/core/ui/gradient_text.dart';
 import 'package:careflix/core/ui/waiting_widget.dart';
 import 'package:careflix/core/utils/size_config.dart';
-import 'package:careflix/layers/data/data_source/fake_data.dart';
 import 'package:careflix/layers/logic/show_lists/show_lists_cubit.dart';
 import 'package:careflix/layers/view/lists_screen/widget/animated_list_view.dart';
 import 'package:careflix/layers/view/lists_screen/widget/heading_widget.dart';
@@ -60,7 +59,7 @@ class _ListsScreenState extends State<ListsScreen> {
   }
 
   loadData() {
-    _showListsCubit.getShowLists();
+    _showListsCubit.getShowLists(context);
   }
 
   @override
@@ -71,10 +70,8 @@ class _ListsScreenState extends State<ListsScreen> {
     super.initState();
     _topMoviesPageController =
         PageController(initialPage: 0, viewportFraction: 0.8, keepPage: true);
-    _trendingPageController = PageController(
-        initialPage: (FakeData.shows.length / 2).floor(),
-        viewportFraction: 0.55,
-        keepPage: true);
+    _trendingPageController =
+        PageController(initialPage: 0, viewportFraction: 0.55, keepPage: true);
   }
 
   @override
@@ -141,13 +138,16 @@ class _ListsScreenState extends State<ListsScreen> {
                         ),
                       ),
                     ),
-                    // HeadingWidget(
-                    //     title: S.of(context).myList,
-                    //     child: ShowList(
-                    //       shows: FakeData.shows,
-                    //       isOriginals: true,
-                    //       token: HeroTagTokens.myList,
-                    //     )),
+                    Visibility(
+                      visible: state.userLists.isNotEmpty,
+                      child: HeadingWidget(
+                          title: S.of(context).myList,
+                          child: ShowList(
+                            shows: state.userLists,
+                            isOriginals: true,
+                            token: HeroTagTokens.myList,
+                          )),
+                    ),
                     CommonSizes.vBiggerSpace,
                     HeadingWidget(
                         title: S.of(context).english,

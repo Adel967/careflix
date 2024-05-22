@@ -2,17 +2,21 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:careflix/core/configuration/assets.dart';
 import 'package:careflix/core/configuration/styles.dart';
 import 'package:careflix/core/constants.dart';
+import 'package:careflix/core/enum.dart';
 import 'package:careflix/core/ui/responsive_text.dart';
 import 'package:careflix/core/utils/size_config.dart';
-import 'package:careflix/layers/data/data_source/fake_data.dart';
+import 'package:careflix/layers/logic/coming_soon/coming_soon_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 import '../../../core/hero_tags.dart';
+import '../../../core/ui/error_widget.dart';
 import '../../../core/ui/hero_widget.dart';
 import '../../../core/ui/waiting_widget.dart';
 import '../../../core/utils.dart';
 import '../../../generated/l10n.dart';
+import '../../../injection_container.dart';
 import '../lists_screen/widget/movie_card.dart';
 
 class ComingSoonShow extends StatefulWidget {
@@ -25,16 +29,20 @@ class ComingSoonShow extends StatefulWidget {
 class _ComingSoonShowState extends State<ComingSoonShow> {
   String selectedType = S.current.all;
 
-  bool startAnimation = false;
+  final _comingSoonCubit = sl<ComingSoonCubit>();
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      setState(() {
-        startAnimation = true;
-      });
-    });
+    if (_comingSoonCubit.showLan != null) {
+      selectedType = showLanToString(_comingSoonCubit.showLan!);
+    }
+    if (!(_comingSoonCubit.state is ComingSoonLoaded)) {
+      _comingSoonCubit.getComingSoonShows();
+    }
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   @override
@@ -61,63 +69,84 @@ class _ComingSoonShowState extends State<ComingSoonShow> {
               ),
               CommonSizes.vBiggerSpace,
               Expanded(
-                child: GridView.builder(
-                  itemCount: FakeData.shows.length,
-                  physics: const ScrollPhysics(),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 7,
-                      mainAxisSpacing: 7,
-                      mainAxisExtent: 300.0),
-                  itemBuilder: (context, index) {
-                    final show = FakeData.shows[index];
-                    return AnimationConfiguration.staggeredGrid(
-                      position: index,
-                      columnCount: 2,
-                      duration: Duration(milliseconds: 500),
-                      child: SlideAnimation(
-                          delay: Duration(milliseconds: 275),
-                          child: Stack(
-                            children: [
-                              _buildImage(show.imageUrl),
-                              Container(
-                                padding: EdgeInsets.all(10),
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                        colors: [
-                                      Colors.black.withOpacity(0.9),
-                                      Colors.transparent
-                                    ],
-                                        begin: Alignment.bottomCenter,
-                                        end: Alignment.topCenter)),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                child: BlocBuilder<ComingSoonCubit, ComingSoonState>(
+                  bloc: _comingSoonCubit,
+                  builder: (context, state) {
+                    if (state is ComingSoonLoading) {
+                      return WaitingWidget();
+                    } else if (state is ComingSoonError) {
+                      return Center(
+                        child: ErrorWidgetScreen(
+                          message: state.error,
+                          func: () {},
+                        ),
+                      );
+                    } else if (state is ComingSoonLoaded) {
+                      return GridView.builder(
+                        itemCount: state.shows.length,
+                        physics: const ScrollPhysics(),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 7,
+                            mainAxisSpacing: 7,
+                            mainAxisExtent: 300.0),
+                        itemBuilder: (context, index) {
+                          final show = state.shows[index];
+                          return AnimationConfiguration.staggeredGrid(
+                            position: index,
+                            columnCount: 2,
+                            duration: Duration(milliseconds: 500),
+                            child: SlideAnimation(
+                                delay: Duration(milliseconds: 275),
+                                child: Stack(
                                   children: [
-                                    ResponsiveText(
-                                      textWidget: Text(
-                                        show.title,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .titleLarge
-                                            ?.copyWith(
-                                                fontWeight: FontWeight.w700,
-                                                height: 0,
-                                                color: Colors.white),
+                                    _buildImage(show.imageUrl),
+                                    Container(
+                                      padding: EdgeInsets.all(10),
+                                      width: double.infinity,
+                                      decoration: BoxDecoration(
+                                          gradient: LinearGradient(
+                                              colors: [
+                                            Colors.black.withOpacity(0.9),
+                                            Colors.transparent
+                                          ],
+                                              begin: Alignment.bottomCenter,
+                                              end: Alignment.topCenter)),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          ResponsiveText(
+                                            textWidget: Text(
+                                              show.title,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .titleLarge
+                                                  ?.copyWith(
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                      height: 0,
+                                                      color: Colors.white),
+                                            ),
+                                          ),
+                                          Text(show.releaseDate,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyMedium!
+                                                  .copyWith(
+                                                      color: Colors.white))
+                                        ],
                                       ),
-                                    ),
-                                    Text(show.releaseDate,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium!
-                                            .copyWith(color: Colors.white))
+                                    )
                                   ],
-                                ),
-                              )
-                            ],
-                          )),
-                    );
+                                )),
+                          );
+                        },
+                      );
+                    }
+                    return SizedBox();
                   },
                 ),
               )
@@ -132,7 +161,7 @@ class _ComingSoonShowState extends State<ComingSoonShow> {
     return Stack(
       children: [
         Image.asset(
-          AssetsLink.FILTER_IMAGE,
+          AssetsLink.LOADING_IMAGE,
           height: SizeConfig.screenHeight * 0.42,
           width: SizeConfig.screenWidth * 0.49,
           fit: BoxFit.cover,
@@ -153,9 +182,15 @@ class _ComingSoonShowState extends State<ComingSoonShow> {
   Widget buildShowTypeBar(String showType) {
     return GestureDetector(
       onTap: () {
+        if (showType == S.current.all) {
+          _comingSoonCubit.showLan = null;
+        } else {
+          _comingSoonCubit.showLan = stringToShowLanFilter(showType);
+        }
         setState(() {
           selectedType = showType;
         });
+        _comingSoonCubit.getComingSoonShows();
       },
       child: Container(
           padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),

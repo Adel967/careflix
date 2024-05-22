@@ -1,5 +1,4 @@
 import 'package:careflix/core/firebase/firestore_keys.dart';
-import 'package:careflix/layers/data/model/show.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ListsProvider {
@@ -39,6 +38,14 @@ class ListsProvider {
         .collection(FireStoreKeys.shows_collections)
         .where("lan", isEqualTo: 'anime')
         .limit(5)
+        .get();
+  }
+
+  Future<QuerySnapshot<Map<String, dynamic>>> getUserLists(
+      List<String> ids) async {
+    return await FirebaseFirestore.instance
+        .collection(FireStoreKeys.shows_collections)
+        .where(FieldPath.documentId, whereIn: ids)
         .get();
   }
 }
