@@ -35,7 +35,7 @@ class SettingsScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(15),
                   ),
                   child: Text(
-                    "adelkutait8@gmail.com",
+                    FirebaseAuth.instance.currentUser!.email!,
                     style: TextStyle(fontSize: 18),
                   ),
                 ),
@@ -78,7 +78,10 @@ class SettingsScreen extends StatelessWidget {
             SettingsCard(
               icon: Icons.family_restroom,
               title: S.of(context).parentalControl,
-              fun: () => {},
+              fun: () => {
+                Navigator.of(context)
+                    .pushNamed(RoutePaths.ParentalControlScreen)
+              },
             ),
           ],
         ),

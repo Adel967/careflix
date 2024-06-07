@@ -30,6 +30,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "appTheme": MessageLookupByLibrary.simpleMessage("مظهر التطبيق"),
         "arab": MessageLookupByLibrary.simpleMessage("عربي"),
         "back": MessageLookupByLibrary.simpleMessage("الرجوع"),
+        "blockedApp":
+            MessageLookupByLibrary.simpleMessage("التطبيق مغلق الآن!"),
+        "blockedShow":
+            MessageLookupByLibrary.simpleMessage("هذا العرض غير متاح لك!"),
         "category": MessageLookupByLibrary.simpleMessage("صنف"),
         "chooseCategory": MessageLookupByLibrary.simpleMessage("إختر التصنيف"),
         "chooseDate": MessageLookupByLibrary.simpleMessage("إختر التاريخ"),
@@ -81,6 +85,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "parentalControl": MessageLookupByLibrary.simpleMessage("مراقبة أسرية"),
         "password": MessageLookupByLibrary.simpleMessage("كلمة المرور"),
         "play": MessageLookupByLibrary.simpleMessage("شاهد"),
+        "qrCodeRequest": MessageLookupByLibrary.simpleMessage(
+            "قم بتنزيل تطبيق المراقبة الأسرية وقم بقراءة الكود"),
         "reload": MessageLookupByLibrary.simpleMessage("إعادة المحاولة"),
         "reset": MessageLookupByLibrary.simpleMessage("إلغاء"),
         "romance": MessageLookupByLibrary.simpleMessage("رمنسي"),

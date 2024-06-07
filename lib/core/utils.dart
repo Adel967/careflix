@@ -18,4 +18,13 @@ class Utils {
       content: Text(msg),
     ));
   }
+
+  static bool listsHaveCommonItem(List list1, List list2) {
+    for (var item in list1) {
+      if (list2.contains(item)) {
+        return true;
+      }
+    }
+    return false;
+  }
 }

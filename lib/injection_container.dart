@@ -5,12 +5,14 @@ import 'package:careflix/layers/data/data_provider/auth_provider.dart';
 import 'package:careflix/layers/data/data_provider/coming_soon_provider.dart';
 import 'package:careflix/layers/data/data_provider/lists_provider.dart';
 import 'package:careflix/layers/data/data_provider/profile_provider.dart';
+import 'package:careflix/layers/data/data_provider/rule_provider.dart';
 import 'package:careflix/layers/data/data_provider/search_provider.dart';
 import 'package:careflix/layers/data/data_provider/show_video_provider.dart';
 import 'package:careflix/layers/data/repository/auth_repository.dart';
 import 'package:careflix/layers/data/repository/coming_soon_repository.dart';
 import 'package:careflix/layers/data/repository/lists_repository.dart';
 import 'package:careflix/layers/data/repository/profile_repository.dart';
+import 'package:careflix/layers/data/repository/rule_repository.dart';
 import 'package:careflix/layers/data/repository/search_repository.dart';
 import 'package:careflix/layers/data/repository/show_video_repository.dart';
 import 'package:careflix/layers/logic/auth/auth_cubit.dart';
@@ -46,6 +48,7 @@ void initInjection() {
   sl.registerLazySingleton(() => SearchRepository(sl()));
   sl.registerLazySingleton(() => ComingSoonRepository(sl()));
   sl.registerLazySingleton(() => ShowVideoRepository(sl()));
+  sl.registerLazySingleton(() => RuleRepository(sl()));
 
   //data_provider
   sl.registerLazySingleton(() => AuthProvider());
@@ -54,4 +57,5 @@ void initInjection() {
   sl.registerLazySingleton(() => SearchProvider());
   sl.registerLazySingleton(() => ComingSoonProvider());
   sl.registerLazySingleton(() => ShowVideoProvider());
+  sl.registerLazySingleton(() => RuleProvider());
 }

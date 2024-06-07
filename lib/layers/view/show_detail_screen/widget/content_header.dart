@@ -4,6 +4,7 @@ import 'package:careflix/core/app/state/app_state.dart';
 import 'package:careflix/core/constants.dart';
 import 'package:careflix/core/enum.dart';
 import 'package:careflix/core/routing/route_path.dart';
+import 'package:careflix/core/utils.dart';
 import 'package:careflix/layers/logic/show_video/show_video_cubit.dart';
 import 'package:careflix/layers/view/show_detail_screen/widget/vertical_icon_button.dart';
 import 'package:flutter/cupertino.dart';
@@ -19,6 +20,7 @@ import '../../../../core/configuration/styles.dart';
 import '../../../../core/utils/size_config.dart';
 import '../../../../generated/l10n.dart';
 import '../../../../injection_container.dart';
+import '../../../data/model/rule.dart';
 import '../../../data/model/show.dart';
 
 class ContentHeader extends StatelessWidget {
@@ -44,6 +46,8 @@ class ContentHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<AppState>(context, listen: false);
+    final Rule? rule = provider.rule;
     return Stack(
       alignment: Alignment.topCenter,
       children: [
@@ -136,13 +140,18 @@ class ContentHeader extends StatelessWidget {
                           }
                         }),
               )),
-              Visibility(
-                visible: show.type == ShowType.MOVIE,
-                child: _PlayButton(
-                  show: show,
-                  context: context,
-                ),
-              ),
+              rule != null &&
+                      (rule.blockedShowsId!.contains(show.title) ||
+                          Utils.listsHaveCommonItem(
+                              rule.blockedCategories!, show.category))
+                  ? SizedBox()
+                  : Visibility(
+                      visible: show.type == ShowType.MOVIE,
+                      child: _PlayButton(
+                        show: show,
+                        context: context,
+                      ),
+                    ),
               Expanded(
                 child: VerticalIconButton(
                     icon: Icons.share,

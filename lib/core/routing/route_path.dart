@@ -13,4 +13,5 @@ class RoutePaths {
   static const SettingsScreen = '/SettingsScreen';
   static const AppLanguageScreen = '/AppLanguageScreen';
   static const VideoStreamingScreen = '/VideoStreamingScreen';
+  static const ParentalControlScreen = '/ParentalControlScreen';
 }

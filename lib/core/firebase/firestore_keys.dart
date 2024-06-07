@@ -3,4 +3,5 @@ class FireStoreKeys {
   static final shows_collections = "shows";
   static final coming_soon_collections = "coming_soon_shows";
   static final episodes_sub_collection = "episodes";
+  static final parental_control_collections = "parental_control";
 }

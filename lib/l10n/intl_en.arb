@@ -74,5 +74,8 @@
   "tooManyRequests": "Too many requests to log into this account",
   "theProcessFailed": "Process failed. Please try again.",
   "thereIsAnError": "There is an error!",
-  "episodes": "Episodes"
+  "episodes": "Episodes",
+  "qrCodeRequest": "Download parental control app and scan the qr code",
+  "blockedShow": "This show is blocked!",
+  "blockedApp": "The app is blocked now!"
 }

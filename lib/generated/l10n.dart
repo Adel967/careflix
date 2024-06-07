@@ -779,6 +779,36 @@ class S {
       args: [],
     );
   }
+
+  /// `Download parental control app and scan the qr code`
+  String get qrCodeRequest {
+    return Intl.message(
+      'Download parental control app and scan the qr code',
+      name: 'qrCodeRequest',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This show is blocked!`
+  String get blockedShow {
+    return Intl.message(
+      'This show is blocked!',
+      name: 'blockedShow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The app is blocked now!`
+  String get blockedApp {
+    return Intl.message(
+      'The app is blocked now!',
+      name: 'blockedApp',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

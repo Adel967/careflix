@@ -12,6 +12,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:outline_gradient_button/outline_gradient_button.dart';
+import 'package:provider/provider.dart';
+import '../../../../core/app/state/app_state.dart';
 import '../../../../core/configuration/styles.dart';
 import '../../../../core/hero_tags.dart';
 import '../../../../core/ui/gradient_widget.dart';
@@ -19,6 +21,7 @@ import '../../../../core/ui/hero_widget.dart';
 import '../../../../core/ui/responsive_text.dart';
 import '../../../../generated/l10n.dart';
 import '../../../../injection_container.dart';
+import '../../../data/model/rule.dart';
 import '../../../data/model/show.dart';
 
 class ContentBody extends StatefulWidget {
@@ -51,6 +54,8 @@ class _ContentBodyState extends State<ContentBody> {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<AppState>(context, listen: false);
+    final Rule? rule = provider.rule;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -145,76 +150,88 @@ class _ContentBodyState extends State<ContentBody> {
           ),
         ),
         CommonSizes.vSmallSpace,
-        Visibility(
-          visible: widget.show.type == ShowType.TV_SHOW,
-          child: HeadingWidget(
-            padding: 20,
-            title: S.of(context).episodes + " (${widget.show.episodeNum})",
-            child: BlocBuilder<ShowVideoCubit, ShowVideoState>(
-              bloc: _showVideoCubit,
-              builder: (context, state) {
-                if (state is ShowVideoLoaded) {
-                  return Container(
-                    height: 150,
-                    child: ListView.separated(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      scrollDirection: Axis.horizontal,
-                      itemCount: state.episodes.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        Episode episode = state.episodes[index];
-                        return GestureDetector(
-                          onTap: () => Navigator.of(context).pushNamed(
-                              RoutePaths.VideoStreamingScreen,
-                              arguments: {"episode": episode}),
-                          child: Utils.clipWidget(Stack(
-                            children: [
-                              CachedNetworkImage(
-                                  imageUrl: widget.show.imageUrl),
-                              Positioned.fill(
-                                child: Container(
-                                  color: Colors.black.withOpacity(0.4),
-                                  child: Center(
-                                    child: Text(
-                                      episode.number,
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 25,
-                                          fontWeight: FontWeight.w600),
+        rule != null &&
+                (rule.blockedShowsId!.contains(widget.show.title) ||
+                    Utils.listsHaveCommonItem(
+                        rule.blockedCategories!, widget.show.category))
+            ? Center(
+                child: Text(
+                  S.of(context).blockedShow,
+                  style: TextStyle(fontSize: 20),
+                ),
+              )
+            : Visibility(
+                visible: widget.show.type == ShowType.TV_SHOW,
+                child: HeadingWidget(
+                  padding: 20,
+                  title:
+                      S.of(context).episodes + " (${widget.show.episodeNum})",
+                  child: BlocBuilder<ShowVideoCubit, ShowVideoState>(
+                    bloc: _showVideoCubit,
+                    builder: (context, state) {
+                      if (state is ShowVideoLoaded) {
+                        return Container(
+                          height: 150,
+                          child: ListView.separated(
+                            padding: EdgeInsets.symmetric(horizontal: 20),
+                            scrollDirection: Axis.horizontal,
+                            itemCount: state.episodes.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              Episode episode = state.episodes[index];
+                              return GestureDetector(
+                                onTap: () => Navigator.of(context).pushNamed(
+                                    RoutePaths.VideoStreamingScreen,
+                                    arguments: {"episode": episode}),
+                                child: Utils.clipWidget(Stack(
+                                  children: [
+                                    CachedNetworkImage(
+                                        imageUrl: widget.show.imageUrl),
+                                    Positioned.fill(
+                                      child: Container(
+                                        color: Colors.black.withOpacity(0.4),
+                                        child: Center(
+                                          child: Text(
+                                            episode.number,
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 25,
+                                                fontWeight: FontWeight.w600),
+                                          ),
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          )),
+                                  ],
+                                )),
+                              );
+                            },
+                            separatorBuilder:
+                                (BuildContext context, int index) {
+                              return SizedBox(
+                                width: 15,
+                              );
+                            },
+                          ),
                         );
-                      },
-                      separatorBuilder: (BuildContext context, int index) {
-                        return SizedBox(
-                          width: 15,
+                      } else if (state is ShowVideoLoading) {
+                        return Container(
+                          height: 150,
+                          child: Center(
+                            child: WaitingWidget(),
+                          ),
                         );
-                      },
-                    ),
-                  );
-                } else if (state is ShowVideoLoading) {
-                  return Container(
-                    height: 150,
-                    child: Center(
-                      child: WaitingWidget(),
-                    ),
-                  );
-                } else if (state is ShowVideoError) {
-                  return Container(
-                    height: 150,
-                    child: Center(
-                      child: Text(state.error),
-                    ),
-                  );
-                }
-                return SizedBox();
-              },
-            ),
-          ),
-        ),
+                      } else if (state is ShowVideoError) {
+                        return Container(
+                          height: 150,
+                          child: Center(
+                            child: Text(state.error),
+                          ),
+                        );
+                      }
+                      return SizedBox();
+                    },
+                  ),
+                ),
+              ),
       ],
     );
   }

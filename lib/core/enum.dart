@@ -126,3 +126,20 @@ String showLanToString(ShowLan showLan) {
       return S.current.english;
   }
 }
+
+enum WeekDay { Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday }
+
+extension WeekDayExtension on WeekDay {
+  String toShortString() {
+    return this.toString().split('.').last;
+  }
+}
+
+WeekDay fromString(String day) {
+  return WeekDay.values
+      .firstWhere((e) => e.toShortString().toLowerCase() == day.toLowerCase());
+}
+
+List<WeekDay> getWeekDaysList() {
+  return WeekDay.values.map((e) => e).toList();
+}

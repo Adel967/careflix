@@ -30,6 +30,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "appTheme": MessageLookupByLibrary.simpleMessage("App Theme"),
         "arab": MessageLookupByLibrary.simpleMessage("Arab"),
         "back": MessageLookupByLibrary.simpleMessage("Back"),
+        "blockedApp":
+            MessageLookupByLibrary.simpleMessage("The app is blocked now!"),
+        "blockedShow":
+            MessageLookupByLibrary.simpleMessage("This show is blocked!"),
         "category": MessageLookupByLibrary.simpleMessage("Category"),
         "chooseCategory":
             MessageLookupByLibrary.simpleMessage("Choose Category"),
@@ -83,6 +87,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Parental Control"),
         "password": MessageLookupByLibrary.simpleMessage("Password"),
         "play": MessageLookupByLibrary.simpleMessage("Play"),
+        "qrCodeRequest": MessageLookupByLibrary.simpleMessage(
+            "Download parental control app and scan the qr code"),
         "reload": MessageLookupByLibrary.simpleMessage("Reload"),
         "reset": MessageLookupByLibrary.simpleMessage("Reset"),
         "romance": MessageLookupByLibrary.simpleMessage("Romance"),
