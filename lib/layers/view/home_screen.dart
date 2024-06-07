@@ -178,7 +178,7 @@ class _HomeScreenState extends State<HomeScreen> {
             return Scaffold(
                 body: Center(
               child: Text(
-                "The app is blocked now!",
+                S.of(context).blockedApp,
                 style: TextStyle(fontSize: 20),
               ),
             ));
