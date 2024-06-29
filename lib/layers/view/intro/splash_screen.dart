@@ -1,13 +1,17 @@
 import 'dart:io';
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:careflix/core/app/state/app_state.dart';
 import 'package:careflix/core/configuration/assets.dart';
 import 'package:careflix/core/configuration/styles.dart';
+import 'package:careflix/core/constants.dart';
 import 'package:careflix/core/routing/route_path.dart';
 import 'package:careflix/core/shared_preferences/shared_preferences_instance.dart';
 import 'package:careflix/core/utils/size_config.dart';
 import 'package:careflix/l10n/local_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/shared_preferences/shared_preferences_key.dart';
@@ -21,9 +25,14 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _animationController;
-  late Animation<Color?> _animation;
+    with TickerProviderStateMixin {
+  late AnimationController _backgroundAnimationController;
+  late AnimationController _textAnimationController;
+  late AnimationController _controller;
+  late AnimationController _imageAnimation;
+  late Animation<Color?> _animationColorBg;
+  late Animation<int> _characterCount;
+  late Animation<double> _imageHeight;
 
   @override
   void initState() {
@@ -32,24 +41,70 @@ class _SplashScreenState extends State<SplashScreen>
     _navigateAfterDelay();
   }
 
-  void _initializeAnimation() {
-    _animationController = AnimationController(
+  void _initializeBackgroundAnimation() {
+    _backgroundAnimationController = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 1),
     );
-    _animation = ColorTween(
+    _animationColorBg = ColorTween(
       begin: Styles.colorPrimary,
       end: Styles.backgroundColor,
-    ).animate(_animationController);
+    ).animate(_backgroundAnimationController);
+  }
 
-    _animationController.forward();
-    _animationController.addListener(() {
+  void _initializeTextAnimation() {
+    _textAnimationController = new AnimationController(
+      duration: const Duration(milliseconds: 500),
+      vsync: this,
+    );
+
+    _characterCount = new StepTween(begin: 0, end: Constants.appName.length)
+        .animate(new CurvedAnimation(
+            parent: _textAnimationController, curve: Curves.easeIn));
+  }
+
+  void _initializeImageAnimation() {
+    _imageAnimation = new AnimationController(
+      duration: const Duration(milliseconds: 300),
+      vsync: this,
+    );
+
+    _imageHeight = new Tween(begin: 130.0, end: 40.0).animate(_imageAnimation);
+  }
+
+  void _initializeAnimation() async {
+    _initializeBackgroundAnimation();
+    _initializeTextAnimation();
+    _initializeImageAnimation();
+
+    _backgroundAnimationController.forward();
+
+    _backgroundAnimationController.addListener(() {
       setState(() {});
     });
+
+    _backgroundAnimationController.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        _imageAnimation.forward();
+      }
+    });
+
+    // Future.delayed(Duration(milliseconds: 1000), () {});
+
+    _imageHeight.addListener(() {
+      setState(() {});
+    });
+
+    _controller = AnimationController(vsync: this)
+      ..addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          _textAnimationController.forward();
+        }
+      });
   }
 
   Future<void> _navigateAfterDelay() async {
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 4));
     User? user = FirebaseAuth.instance.currentUser;
 
     if (user != null) {
@@ -85,7 +140,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   void dispose() {
-    _animationController.dispose();
+    _backgroundAnimationController.dispose();
     super.dispose();
   }
 
@@ -94,9 +149,62 @@ class _SplashScreenState extends State<SplashScreen>
     SizeConfig().init(context);
 
     return Scaffold(
-      backgroundColor: _animation.value,
+      backgroundColor: _animationColorBg.value,
       body: Center(
-        child: Image.asset(AssetsLink.APP_LOGO),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Row(
+              textDirection: TextDirection.ltr,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  height: _imageHeight.value,
+                  AssetsLink.APP_LOGO,
+                ),
+                CommonSizes.hSmallSpace,
+                Container(
+                  color: Colors.white,
+                  height: 20,
+                  width: 2,
+                ).animate(controller: _controller).scaleY(
+                    delay: Duration(milliseconds: 1400),
+                    duration: Duration(milliseconds: 300),
+                    begin: 0,
+                    end: 1.5),
+                CommonSizes.hSmallSpace,
+                _characterCount == null
+                    ? SizedBox()
+                    : AnimatedBuilder(
+                        animation: _characterCount,
+                        builder: (context, child) {
+                          String text = Constants.appName
+                              .substring(0, _characterCount.value);
+                          return Text(
+                            text,
+                            style: TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          );
+                        },
+                      )
+              ],
+            ),
+            CommonSizes.vSmallSpace,
+            Text("Where Entertainment Meets Safety")
+                .animate()
+                .fadeIn(
+                  delay: Duration(milliseconds: 2600),
+                  duration: Duration(milliseconds: 500),
+                )
+                .slideY(
+                    delay: Duration(milliseconds: 2600),
+                    duration: Duration(milliseconds: 700),
+                    begin: 0.5,
+                    end: 0)
+          ],
+        ),
       ),
     );
   }

@@ -67,11 +67,8 @@ class _ListsScreenState extends State<ListsScreen> {
     if (!(_showListsCubit.state is ShowListsLoaded)) {
       loadData();
     }
+
     super.initState();
-    _topMoviesPageController =
-        PageController(initialPage: 0, viewportFraction: 0.8, keepPage: true);
-    _trendingPageController =
-        PageController(initialPage: 0, viewportFraction: 0.55, keepPage: true);
   }
 
   @override
@@ -96,6 +93,14 @@ class _ListsScreenState extends State<ListsScreen> {
                   child: Text(state.error),
                 );
               } else if (state is ShowListsLoaded) {
+                _topMoviesPageController = PageController(
+                    initialPage: (state.topShows.length / 2).floor(),
+                    viewportFraction: 0.8,
+                    keepPage: true);
+                _trendingPageController = PageController(
+                    initialPage: (state.trendingShows.length / 2).floor(),
+                    viewportFraction: 0.55,
+                    keepPage: true);
                 return Positioned.fill(
                     child: ListView(
                   shrinkWrap: true,

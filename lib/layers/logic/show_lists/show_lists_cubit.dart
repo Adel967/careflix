@@ -51,7 +51,7 @@ class ShowListsCubit extends Cubit<ShowListsState> {
         final res = await _listsRepo.getUserList(ids);
         emit((state as ShowListsLoaded).copyWith(userLists: res));
       } catch (e) {
-        //emit(ShowListsError(error: "Error"));
+        emit(ShowListsError(error: "Error"));
       }
     }
   }
